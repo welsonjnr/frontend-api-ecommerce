@@ -9,7 +9,6 @@ export default function Pedidos() {
     const [client, setClient] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [info, setInfo] = useState("");
-    const [sale, setSale] = useState();
     const [productSale, setProductSale] = useState([]);
     const [idProduct, setIdProduct] = useState(0)
     const [price, setPrice] = useState(0)
@@ -160,8 +159,6 @@ export default function Pedidos() {
                                         autoComplete="address-level2"
                                         className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
                                     />
-
-
                                 </div>
                             </div>
                             <div className="col-span-6 sm:col-span-6 lg:col-span-2 mt-6">
