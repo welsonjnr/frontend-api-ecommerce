@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard'
 import Pedidos from './components/Pedidos'
 import Produtos from './components/Produto'
 import Pedido from './components/Pedido'
+import PedidoEdit from './components/PedidoEdit'
 import {
   BrowserRouter,
   Routes,
@@ -25,6 +26,8 @@ root.render(
         <Route path="/produtos" element={ <Produtos/> }/>
         <Route path="/dashboard/pedido/:id" element={ <Pedido/> }/>
         <Route path="/pedido/:id" element={ <Pedido/> }/>
+        <Route path="/dashboard/pedido/edit/:id" element={ <PedidoEdit/> }/>
+        <Route path="/pedido/edit/:id" element={ <PedidoEdit/> }/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

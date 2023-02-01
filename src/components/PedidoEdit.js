@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { TrashIcon as IconDelete } from '@heroicons/react/20/solid'
+import { useParams } from "react-router-dom";
 
 
 export default function Pedidos() {
@@ -15,13 +16,30 @@ export default function Pedidos() {
     const [idProduct, setIdProduct] = useState(0)
     const [price, setPrice] = useState(0)
     const [indexProducSale, setIndexProducSale] = useState(0)
-    const navigate = useNavigate();
+    const [sale, setSale] = useState()
+
+    const { id } = useParams();
 
     useEffect(() => {
+
         fetch("http://localhost:8080/ecommerce/product/page")
-          .then(res => res.json())
-          .then(dados => setProducts(dados.content))
-      }, [])
+            .then(res => res.json())
+            .then(dados => setProducts(dados.content))
+
+            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            .then(res => res.json())
+            // .then(dados => console.log(dados))
+            .then(dados => setSale(dados))
+
+            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            .then(res => res.json())
+            .then(dados => setClient(dados.client))
+
+            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            .then(res => res.json())
+            .then(dados => createProductSaleForTable(dados.products))
+            .then(dados => setProductSale(dados))
+    }, [])
 
       function onChangeHandler(e) {
         const index = e.target.selectedIndex;
@@ -33,6 +51,23 @@ export default function Pedidos() {
         setPrice(price)
         setIndexProducSale(indexProducSale + 1)
       }
+
+      function createProductSaleForTable(dados){
+        let array = [];
+        dados.map(function(productSale){
+            let productSaleDTO = {
+                indexProducSale : productSale.id,
+                quantity: productSale.quantity,
+                idProduct: productSale.product.id,
+                nameProduct: productSale.product.name,
+                priceSale: productSale.preco,
+                info: productSale.info
+            }
+            array.push(productSaleDTO)
+        })
+
+        return array;
+        }
 
        function createProductSale(){
          let productSaleDTO = {
@@ -48,8 +83,6 @@ export default function Pedidos() {
             setProductSale(prods => [...prods, productSaleDTO])
             clearStatesProductSale()
          }
-
-         console.log(productSale)
        }
 
        function validaProductSale(productSale){
@@ -90,14 +123,12 @@ export default function Pedidos() {
             
             if(validaSale(newSale)){
                 try {
-                    const res = await axios.post('http://localhost:8080/ecommerce/sale', newSale)
+                    const res = await axios.put(`http://localhost:8080/ecommerce/sale/${id}`, newSale)
                     console.log(res.data)
                   } catch (e) {
                     alert(e)
                   }
             }
-            console.log(newSale)
-
        }
 
        function removeProductSaleFromSale(prod){
@@ -146,7 +177,7 @@ export default function Pedidos() {
                                         name="name-client"
                                         id="name-client"
                                         required
-                                        value={client} 
+                                        value={client}
                                         onChange={e => setClient(e.target.value)}
                                         autoComplete="given-name"
                                         className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 

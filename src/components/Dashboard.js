@@ -182,9 +182,9 @@ export default function App() {
                                             </Link>
 
                                             <a className="px-2 py-4" />
-                                            <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                            <Link to={`pedido/edit/${sale.idSale}`} className="text-indigo-600 hover:text-indigo-900">
                                                 <IconEdit className="h-8 w-10 flex-shrink-0 text-indigo-600 hover:text-indigo-900" aria-hidden="true" />
-                                            </a>
+                                            </Link>
                                             <a className="px-2 py-4" />
                                             <a href="#" className="text-indigo-600 hover:text-indigo-900">
                                                 <IconDelete className="h-8 w-10 flex-shrink-0 text-indigo-600 hover:text-indigo-900" 
