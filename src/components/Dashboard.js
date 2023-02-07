@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ComputerDesktopIcon as IconDetail } from '@heroicons/react/20/solid'
 import { TrashIcon as IconDelete } from '@heroicons/react/20/solid'
 import { DocumentTextIcon as IconEdit } from '@heroicons/react/20/solid'
+import CardButtons from './CardButtons'
 import Modal from '../components/modal/Modal'
 
 import axios from 'axios'
@@ -13,11 +14,18 @@ export default function App() {
     const [nameClient, setNameClient] = useState("")
     const [modal, setModal] = useState(false)
     const [idSale, setIdSale] = useState(0)
+    const [page, setPage] = useState(0)
 
     useEffect(() => {
         fetch("http://localhost:8080/ecommerce/sale/page")
             .then(res => res.json())
+            //.then(res => console.log(res))
             .then(dados => setSales(dados.content.reverse()))
+
+            fetch("http://localhost:8080/ecommerce/sale/page")
+            .then(res => res.json())
+            //.then(res => console.log(res))
+            .then(dados => setPage(dados.number))
     }, [])
 
     function refresh() {
@@ -30,8 +38,26 @@ export default function App() {
     function pesquisarClientByName(client) {
         fetch(`http://localhost:8080/ecommerce/sale/client/${client}`)
             .then(res => res.json())
-            .then(dados => setSales(dados.reverse()))
+            .then(dados => setSales(dados.content.reverse()))
     }
+
+      function avancarPagina() {
+        setPage(prevPage => prevPage + 1);
+      
+        fetch(`http://localhost:8080/ecommerce/sale/page?page=${page.toString() + 1}`)
+          .then(res => res.json())
+          .then(dados => setSales(dados.content.reverse()))
+      }
+      
+      function voltarPagina() {
+       
+         if (page === 0) return;
+         setPage(prevPage => prevPage - 1);
+
+        fetch(`http://localhost:8080/ecommerce/sale/page?page=${page.toString() - 1}`)
+          .then(res => res.json())
+          .then(dados => setSales(dados.content.reverse()))
+      }
 
     async function deleteSale() {
         try {
@@ -56,7 +82,7 @@ export default function App() {
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="md:grid md:grid-cols-5 md:gap-6 items-end">
                 <div className="px-2 py-2 md:col-span-3">
                     <div className="col-span-3 sm:col-span-3 lg:col-span-3">
@@ -77,12 +103,12 @@ export default function App() {
                 <div className="flex items-stretch">
                     <button type="button"
                         onClick={() => pesquisarClientByName(nameClient)}
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-700 px-4 py-2 hover:bg-blue-800 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm mt-3 mr-3 mb-3">
+                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-700 px-4 py-2 hover:bg-blue-800 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm mt-3 mb-3">
                         Pesquisar
                     </button>
                     <button type="button"
                         onClick={() => refresh()}
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-700 px-4 py-2 hover:bg-blue-800 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm mt-3 mr-3 mb-3">
+                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-700 px-4 py-2 hover:bg-blue-800 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm mt-3 mb-3">
                         Recarregar
                     </button>
                 </div>
@@ -197,7 +223,8 @@ export default function App() {
                                 ))}
                             </tbody>
                         </table>
-
+                        
+                        <CardButtons page={page} avancarPagina={avancarPagina} voltarPagina={voltarPagina}/>
                         <Modal idSale={idSale} modalState={modal} setModal={alterarStateModal} refresh={refresh} deleteSale={deleteSale}/>
                     </div>
                 </div>

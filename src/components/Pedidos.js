@@ -3,9 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import { TrashIcon as IconDelete } from '@heroicons/react/20/solid'
 
-
 export default function Pedidos() {
-
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState();
     const [client, setClient] = useState("");
@@ -92,6 +90,7 @@ export default function Pedidos() {
                 try {
                     const res = await axios.post('http://localhost:8080/ecommerce/sale', newSale)
                     console.log(res.data)
+                    navigate(-1)
                   } catch (e) {
                     alert(e)
                   }
@@ -132,7 +131,7 @@ export default function Pedidos() {
             </div>
 
             <div className="mt-5 md:col-span-2 md:mt-0">
-            <form>
+            <form className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 {/* <form action="#" method="POST"> */}
                     <div className="overflow-hidden shadow sm:rounded-md">
                         <div className="bg-white px-4 py-5 sm:p-6">
@@ -199,7 +198,6 @@ export default function Pedidos() {
                                         rows={3}
                                         className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
                                         placeholder="Adicionais/Ponto do hamburguer"
-                                        defaultValue={''}
                                     />
                                 </div>
                                 

@@ -22,6 +22,7 @@ root.render(
       <Routes>
         <Route path="/" element={ <Dashboard/> }/>
         <Route path="/dashboard" element={ <Dashboard/> }/>
+        <Route path="/dashboard#" element={ <Dashboard/> }/>
         <Route path="/pedidos" element={ <Pedidos/> }/>
         <Route path="/produtos" element={ <Produtos/> }/>
         <Route path="/dashboard/pedido/:id" element={ <Pedido/> }/>

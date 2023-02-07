@@ -1,7 +1,8 @@
 export default function Produto() {
     return (
         <>
-            <div className="hidden sm:block" aria-hidden="true">
+        <h1>Estou trabalhando nisso</h1>
+            {/* <div className="hidden sm:block" aria-hidden="true">
                 <div className="py-5">
                     <div className="border-t border-gray-200" />
                 </div>
@@ -163,7 +164,7 @@ export default function Produto() {
                 <div className="py-5">
                     <div className="border-t border-gray-200" />
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

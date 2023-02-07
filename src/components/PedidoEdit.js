@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TrashIcon as IconDelete } from '@heroicons/react/20/solid'
 import { useParams } from "react-router-dom";
 
@@ -17,6 +17,7 @@ export default function Pedidos() {
     const [price, setPrice] = useState(0)
     const [indexProducSale, setIndexProducSale] = useState(0)
     const [sale, setSale] = useState()
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -125,6 +126,7 @@ export default function Pedidos() {
                 try {
                     const res = await axios.put(`http://localhost:8080/ecommerce/sale/${id}`, newSale)
                     console.log(res.data)
+                    navigate(-1)
                   } catch (e) {
                     alert(e)
                   }
@@ -165,7 +167,7 @@ export default function Pedidos() {
             <div className="mt-5 md:col-span-2 md:mt-0">
             <form>
                 {/* <form action="#" method="POST"> */}
-                    <div className="overflow-hidden shadow sm:rounded-md">
+                    <div className="overflow-hidden shadow sm:rounded-md mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                         <div className="bg-white px-4 py-5 sm:p-6">
                             <div className="grid grid-cols-6 gap-6">
                                 <div className="col-span-6">
