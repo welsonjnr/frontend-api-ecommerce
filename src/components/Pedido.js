@@ -7,7 +7,7 @@ export default function Pedido() {
     const [sale, setSale] = useState()
 
     useEffect(() => {
-        fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${id}`)
             .then(res => res.json())
             .then(dados => setSale(dados))
     }, [])

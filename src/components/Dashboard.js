@@ -17,26 +17,24 @@ export default function App() {
     const [page, setPage] = useState(0)
 
     useEffect(() => {
-        fetch("http://localhost:8080/ecommerce/sale/page")
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/page`)
             .then(res => res.json())
-            //.then(res => console.log(res))
             .then(dados => setSales(dados.content.reverse()))
 
-            fetch("http://localhost:8080/ecommerce/sale/page")
+            fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/page`)
             .then(res => res.json())
-            //.then(res => console.log(res))
             .then(dados => setPage(dados.number))
     }, [])
 
     function refresh() {
-        fetch("http://localhost:8080/ecommerce/sale/page")
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/page`)
             .then(res => res.json())
             .then(dados => setSales(dados.content.reverse()))
             setNameClient("")
     }
 
     function pesquisarClientByName(client) {
-        fetch(`http://localhost:8080/ecommerce/sale/client/${client}`)
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/client/${client}`)
             .then(res => res.json())
             .then(dados => setSales(dados.content.reverse()))
     }
@@ -44,7 +42,7 @@ export default function App() {
       function avancarPagina() {
         setPage(prevPage => prevPage + 1);
       
-        fetch(`http://localhost:8080/ecommerce/sale/page?page=${page.toString() + 1}`)
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/page?page=${page.toString() + 1}`)
           .then(res => res.json())
           .then(dados => setSales(dados.content.reverse()))
       }
@@ -54,22 +52,20 @@ export default function App() {
          if (page === 0) return;
          setPage(prevPage => prevPage - 1);
 
-        fetch(`http://localhost:8080/ecommerce/sale/page?page=${page.toString() - 1}`)
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/page?page=${page.toString() - 1}`)
           .then(res => res.json())
           .then(dados => setSales(dados.content.reverse()))
       }
 
     async function deleteSale() {
         try {
-            const res = await axios.delete(`http://localhost:8080/ecommerce/sale/${idSale}`)
-            console.log(res)
+            const res = await axios.delete(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${idSale}`)
           } catch (e) {
             alert(e)
           }
 
            refresh()
            setModal()
-           
     }
 
     function alterarStateModal(){

@@ -23,20 +23,20 @@ export default function Pedidos() {
 
     useEffect(() => {
 
-        fetch("http://localhost:8080/ecommerce/product/page")
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/product/page`)
             .then(res => res.json())
             .then(dados => setProducts(dados.content))
 
-            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${id}`)
             .then(res => res.json())
             // .then(dados => console.log(dados))
             .then(dados => setSale(dados))
 
-            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${id}`)
             .then(res => res.json())
             .then(dados => setClient(dados.client))
 
-            fetch(`http://localhost:8080/ecommerce/sale/${id}`)
+            fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${id}`)
             .then(res => res.json())
             .then(dados => createProductSaleForTable(dados.products))
             .then(dados => setProductSale(dados))
@@ -124,7 +124,7 @@ export default function Pedidos() {
             
             if(validaSale(newSale)){
                 try {
-                    const res = await axios.put(`http://localhost:8080/ecommerce/sale/${id}`, newSale)
+                    const res = await axios.put(`${process.env.REACT_APP_LINK_API}/ecommerce/sale/${id}`, newSale)
                     console.log(res.data)
                     navigate(-1)
                   } catch (e) {

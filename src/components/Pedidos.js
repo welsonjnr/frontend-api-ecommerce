@@ -16,7 +16,7 @@ export default function Pedidos() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:8080/ecommerce/product/page")
+        fetch(`${process.env.REACT_APP_LINK_API}/ecommerce/product/page`)
           .then(res => res.json())
           .then(dados => setProducts(dados.content))
       }, [])
@@ -88,7 +88,7 @@ export default function Pedidos() {
             
             if(validaSale(newSale)){
                 try {
-                    const res = await axios.post('http://localhost:8080/ecommerce/sale', newSale)
+                    const res = await axios.post(`${process.env.REACT_APP_LINK_API}/ecommerce/sale`, newSale)
                     console.log(res.data)
                     navigate(-1)
                   } catch (e) {
